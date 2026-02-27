@@ -15,29 +15,29 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 35% 15%;
 
-    --primary: 211 65% 45%;
+    --primary: 0 78% 48%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 94%;
-    --secondary-foreground: 215 35% 20%;
+    --secondary: 0 10% 94%;
+    --secondary-foreground: 0 0% 12%;
 
-    --muted: 210 25% 95%;
-    --muted-foreground: 215 15% 50%;
+    --muted: 0 5% 95%;
+    --muted-foreground: 0 5% 45%;
 
-    --accent: 200 75% 50%;
+    --accent: 0 70% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 211 65% 45%;
+    --border: 0 10% 90%;
+    --input: 0 10% 90%;
+    --ring: 0 78% 48%;
 
     --radius: 0.75rem;
 
-    --hero-gradient: linear-gradient(135deg, hsl(211 65% 45%), hsl(200 75% 50%));
-    --section-alt: 210 33% 96%;
+    --hero-gradient: linear-gradient(135deg, hsl(0 78% 48%), hsl(0 0% 15%));
+    --section-alt: 0 5% 96%;
     --warm: 35 90% 55%;
     --warm-foreground: 0 0% 100%;
     --success: 152 60% 42%;
@@ -60,20 +60,20 @@
     --card-foreground: 210 25% 95%;
     --popover: 215 35% 12%;
     --popover-foreground: 210 25% 95%;
-    --primary: 211 65% 55%;
+    --primary: 0 78% 55%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 215 30% 18%;
-    --secondary-foreground: 210 25% 90%;
-    --muted: 215 25% 16%;
-    --muted-foreground: 215 15% 60%;
-    --accent: 200 75% 55%;
+    --secondary: 0 10% 18%;
+    --secondary-foreground: 0 5% 90%;
+    --muted: 0 5% 16%;
+    --muted-foreground: 0 5% 60%;
+    --accent: 0 70% 60%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 215 25% 20%;
     --input: 215 25% 20%;
-    --ring: 211 65% 55%;
-    --section-alt: 215 30% 10%;
+    --ring: 0 78% 55%;
+    --section-alt: 0 5% 10%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
