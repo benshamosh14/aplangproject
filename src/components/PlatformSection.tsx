@@ -1,9 +1,12 @@
-import { Heart, Handshake, Settings, Calendar, Bus, Scale } from "lucide-react";
+import { Heart, Handshake, Settings } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
 
 const pillars = [
   {
     icon: Heart,
     color: "bg-primary/10 text-primary",
+    borderAccent: "border-l-primary",
     title: "Mental Health & Workload Balance",
     emoji: "🧠",
     policies: [
@@ -27,6 +30,7 @@ const pillars = [
   {
     icon: Handshake,
     color: "bg-warm/10 text-warm",
+    borderAccent: "border-l-warm",
     title: "Trust, Fairness & Transparency",
     emoji: "🤝",
     policies: [
@@ -50,6 +54,7 @@ const pillars = [
   {
     icon: Settings,
     color: "bg-success/10 text-success",
+    borderAccent: "border-l-success",
     title: "Smarter Systems",
     emoji: "⚙️",
     policies: [
@@ -72,11 +77,57 @@ const pillars = [
   },
 ];
 
-const PlatformSection = () => {
+const PolicyCard = ({ policy, index }: { policy: typeof pillars[0]["policies"][0]; index: number }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
-    <section className="py-24">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+    <motion.div
+      className="p-6 sm:p-8 hover:bg-muted/50 transition-all duration-300 cursor-pointer group"
+      onClick={() => setIsExpanded(!isExpanded)}
+      whileHover={{ x: 4 }}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1">
+          <h4 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+            {policy.name}
+          </h4>
+          <p className="text-muted-foreground">{policy.desc}</p>
+        </div>
+        <motion.span
+          className="text-muted-foreground/50 text-xl mt-1 flex-shrink-0"
+          animate={{ rotate: isExpanded ? 45 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          +
+        </motion.span>
+      </div>
+      <motion.div
+        initial={false}
+        animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        className="overflow-hidden"
+      >
+        <p className="text-sm text-primary font-medium italic mt-4 pl-4 border-l-2 border-primary/30">
+          Why it matters: {policy.why}
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+const PlatformSection = () => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section className="py-28">
+      <div className="container mx-auto px-6" ref={ref}>
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+        >
           <p className="text-primary font-semibold text-sm tracking-[0.15em] uppercase mb-3">
             The Platform
           </p>
@@ -84,20 +135,29 @@ const PlatformSection = () => {
             Real policies. Real change.
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-muted-foreground leading-relaxed">
-            These aren't empty promises. Every policy here is designed to make 
+            These aren't empty promises. Every policy here is designed to make
             your day better — starting now.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="space-y-12 max-w-5xl mx-auto">
+        <div className="space-y-8 max-w-5xl mx-auto">
           {pillars.map((pillar, i) => (
-            <div key={i} className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 50 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: i * 0.2 }}
+              className={`bg-card rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-500 border-l-4 ${pillar.borderAccent}`}
+            >
               {/* Pillar Header */}
               <div className="p-8 pb-6 border-b border-border">
                 <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-xl ${pillar.color} flex items-center justify-center`}>
+                  <motion.div
+                    className={`w-12 h-12 rounded-xl ${pillar.color} flex items-center justify-center`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                  >
                     <pillar.icon className="w-6 h-6" />
-                  </div>
+                  </motion.div>
                   <div>
                     <h3 className="text-xl font-bold text-foreground">
                       {pillar.emoji} {pillar.title}
@@ -109,18 +169,10 @@ const PlatformSection = () => {
               {/* Policies */}
               <div className="divide-y divide-border">
                 {pillar.policies.map((policy, j) => (
-                  <div key={j} className="p-8 hover:bg-muted/50 transition-colors">
-                    <h4 className="text-lg font-semibold text-foreground mb-2">
-                      {policy.name}
-                    </h4>
-                    <p className="text-muted-foreground mb-3">{policy.desc}</p>
-                    <p className="text-sm text-primary font-medium italic">
-                      Why it matters: {policy.why}
-                    </p>
-                  </div>
+                  <PolicyCard key={j} policy={policy} index={j} />
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
