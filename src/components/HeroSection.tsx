@@ -1,8 +1,22 @@
-import { Play, ChevronDown } from "lucide-react";
+import { Play, ChevronDown, Pause } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState, useRef } from "react";
 import heroBg from "@/assets/hero-bg.png";
 
 const HeroSection = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const toggleVideo = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       {/* Background */}
@@ -25,74 +39,104 @@ const HeroSection = () => {
       />
 
       <div className="relative z-10 container mx-auto px-6 py-20 text-center">
-        {/* Video Placeholder */}
-        <motion.div
-          className="mx-auto mb-12 max-w-3xl"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <div className="relative aspect-video rounded-2xl bg-primary-foreground/10 backdrop-blur-md border border-primary-foreground/20 flex items-center justify-center cursor-pointer group hover:bg-primary-foreground/15 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/20">
-            <motion.div
-              className="w-20 h-20 rounded-full bg-primary-foreground/20 backdrop-blur-md flex items-center justify-center"
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.95 }}
-              animate={{ boxShadow: ["0 0 0 0 rgba(255,255,255,0.3)", "0 0 0 20px rgba(255,255,255,0)", "0 0 0 0 rgba(255,255,255,0.3)"] }}
-              transition={{ duration: 2.5, repeat: Infinity }}
-            >
-              <Play className="w-8 h-8 text-primary-foreground ml-1" />
-            </motion.div>
-            <span className="absolute bottom-4 text-primary-foreground/70 text-sm font-medium">
-              Watch the Campaign Video
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Candidate Info */}
+        {/* Candidate Info - now ABOVE the video */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="mb-10"
         >
           <motion.p
             className="text-primary-foreground/80 font-medium text-sm tracking-[0.25em] uppercase mb-4"
             initial={{ opacity: 0, letterSpacing: "0.5em" }}
             animate={{ opacity: 1, letterSpacing: "0.25em" }}
-            transition={{ duration: 1, delay: 0.4 }}
+            transition={{ duration: 1, delay: 0.3 }}
           >
             Merit and Mindset Party
           </motion.p>
 
           <motion.h1
-            className="text-5xl sm:text-8xl font-extrabold text-primary-foreground mb-6 leading-tight"
+            className="text-5xl sm:text-8xl font-extrabold text-primary-foreground mb-5 leading-[0.95]"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
             Ellie Shrier
           </motion.h1>
 
           <motion.div
-            className="inline-block mb-8"
+            className="inline-block mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <span className="text-2xl sm:text-4xl font-bold text-primary-foreground/95 px-6 py-2 rounded-full border-2 border-primary-foreground/30 backdrop-blur-sm bg-primary-foreground/5">
+            <span className="text-xl sm:text-3xl font-bold text-primary-foreground/95 px-6 py-2 rounded-full border-2 border-primary-foreground/30 backdrop-blur-sm bg-primary-foreground/5">
               Balance Over Burnout
             </span>
           </motion.div>
 
           <motion.p
-            className="max-w-2xl mx-auto text-lg text-primary-foreground/75 leading-relaxed"
+            className="max-w-xl mx-auto text-base sm:text-lg text-primary-foreground/70 leading-relaxed"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
           >
             A campaign built on trust, mental health, and real change for
-            Northern Highlands students. Because you deserve a school
-            that works <em>with</em> you — not against you.
+            Northern Highlands students.
           </motion.p>
+        </motion.div>
+
+        {/* Campaign Video */}
+        <motion.div
+          className="mx-auto max-w-3xl"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+        >
+          <div
+            className="relative aspect-video rounded-2xl overflow-hidden border border-primary-foreground/20 shadow-2xl shadow-black/30 cursor-pointer group"
+            onClick={toggleVideo}
+          >
+            <video
+              ref={videoRef}
+              src="/campaign-video.mp4"
+              className="w-full h-full object-cover"
+              playsInline
+              onEnded={() => setIsPlaying(false)}
+            />
+
+            {/* Play/Pause overlay */}
+            <motion.div
+              className="absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity duration-300"
+              animate={{ opacity: isPlaying ? 0 : 1 }}
+              whileHover={{ opacity: 1 }}
+            >
+              <motion.div
+                className="w-20 h-20 rounded-full bg-primary-foreground/20 backdrop-blur-md flex items-center justify-center"
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.95 }}
+                animate={!isPlaying ? {
+                  boxShadow: [
+                    "0 0 0 0 rgba(255,255,255,0.3)",
+                    "0 0 0 20px rgba(255,255,255,0)",
+                    "0 0 0 0 rgba(255,255,255,0.3)",
+                  ],
+                } : {}}
+                transition={{ duration: 2.5, repeat: Infinity }}
+              >
+                {isPlaying ? (
+                  <Pause className="w-8 h-8 text-primary-foreground" />
+                ) : (
+                  <Play className="w-8 h-8 text-primary-foreground ml-1" />
+                )}
+              </motion.div>
+              {!isPlaying && (
+                <span className="absolute bottom-4 text-primary-foreground/70 text-sm font-medium">
+                  Watch the Campaign Video
+                </span>
+              )}
+            </motion.div>
+          </div>
         </motion.div>
 
         {/* Scroll indicator */}
