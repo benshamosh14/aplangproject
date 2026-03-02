@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Sparkles } from "lucide-react";
 
 const CTASection = () => {
   const ref = useRef(null);
@@ -22,61 +23,70 @@ const CTASection = () => {
       />
 
       <div className="relative z-10 container mx-auto px-6 text-center" ref={ref}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="flex justify-center mb-6"
+        >
+          <span className="inline-flex items-center gap-2 text-primary-foreground/60 text-sm font-medium tracking-widest uppercase px-4 py-2 rounded-full border border-primary-foreground/20 backdrop-blur-sm">
+            <Sparkles className="w-4 h-4" />
+            Your vote matters
+          </span>
+        </motion.div>
+
         <motion.h2
-          className="text-3xl sm:text-6xl font-extrabold text-primary-foreground mb-6 leading-tight"
+          className="text-4xl sm:text-7xl font-extrabold text-primary-foreground mb-8 leading-[0.95]"
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
         >
-          Balance Over Burnout.
+          Balance Over<br />Burnout.
         </motion.h2>
 
-        <motion.p
-          className="max-w-2xl mx-auto text-lg text-primary-foreground/80 leading-relaxed mb-4"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
-        >
-          This isn't just about policies — it's about trust. It's about believing
-          that students deserve better and having the courage to ask for it.
-        </motion.p>
-        <motion.p
-          className="max-w-2xl mx-auto text-lg text-primary-foreground/80 leading-relaxed mb-12"
+        <motion.div
+          className="max-w-2xl mx-auto space-y-4 mb-14"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.3 }}
         >
-          When you vote, choose the party that puts your well-being first.
-          Choose the party that listens. Choose the party that believes in you.
-        </motion.p>
+          <p className="text-lg text-primary-foreground/80 leading-relaxed">
+            This isn't just about policies — it's about trust. It's about believing
+            that students deserve better and having the courage to ask for it.
+          </p>
+          <p className="text-lg text-primary-foreground/80 leading-relaxed">
+            When you vote, choose the party that puts your well-being first.
+            Choose the party that listens. Choose the party that believes in you.
+          </p>
+        </motion.div>
 
         <motion.div
-          className="space-y-5"
+          className="space-y-4"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.5 }}
         >
           <motion.p
-            className="text-2xl sm:text-4xl font-bold text-primary-foreground"
-            whileHover={{ scale: 1.03 }}
+            className="text-3xl sm:text-5xl font-extrabold text-primary-foreground"
+            whileHover={{ scale: 1.02 }}
           >
-            Choose the Merit and Mindset Party.
+            Choose Merit & Mindset.
           </motion.p>
-          <p className="text-primary-foreground/70 text-lg">
+          <p className="text-primary-foreground/60 text-lg mt-4">
             The future of Northern Highlands starts with us — calm, balanced, and human.
           </p>
         </motion.div>
 
-        {/* Decorative divider */}
+        {/* Decorative */}
         <motion.div
-          className="mt-12 flex items-center justify-center gap-3"
+          className="mt-16 flex items-center justify-center gap-3"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.8 }}
         >
-          <div className="w-12 h-px bg-primary-foreground/30" />
-          <span className="text-primary-foreground/50 text-2xl">✦</span>
-          <div className="w-12 h-px bg-primary-foreground/30" />
+          <div className="w-16 h-px bg-primary-foreground/20" />
+          <span className="text-primary-foreground/40 text-2xl">✦</span>
+          <div className="w-16 h-px bg-primary-foreground/20" />
         </motion.div>
       </div>
     </section>
