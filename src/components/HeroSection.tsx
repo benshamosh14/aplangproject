@@ -12,6 +12,7 @@ const HeroSection = () => {
     if (isPlaying) {
       videoRef.current.pause();
     } else {
+      videoRef.current.currentTime = 0;
       videoRef.current.play();
     }
     setIsPlaying(!isPlaying);
@@ -100,9 +101,14 @@ const HeroSection = () => {
             <video
               ref={videoRef}
               src="/campaign-video.mp4"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain bg-black"
               playsInline
+              preload="metadata"
               onEnded={() => setIsPlaying(false)}
+              onLoadedMetadata={(e) => {
+                const video = e.currentTarget;
+                video.currentTime = video.duration;
+              }}
             />
 
             {/* Play/Pause overlay */}
