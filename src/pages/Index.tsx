@@ -4,7 +4,6 @@ import ProblemSection from "@/components/ProblemSection";
 import PlatformSection from "@/components/PlatformSection";
 import WhyItMattersSection from "@/components/WhyItMattersSection";
 import CTASection from "@/components/CTASection";
-import GameHostPanel from "@/components/GameHostPanel";
 
 const Index = () => {
   return (
@@ -23,7 +22,6 @@ const Index = () => {
         <WhyItMattersSection />
       </div>
       <CTASection />
-      <GameHostPanel />
     </main>
   );
 };
