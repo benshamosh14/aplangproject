@@ -4,17 +4,12 @@ import ProblemSection from "@/components/ProblemSection";
 import PlatformSection from "@/components/PlatformSection";
 import WhyItMattersSection from "@/components/WhyItMattersSection";
 import CTASection from "@/components/CTASection";
-import QRCodePanel from "@/components/QRCodePanel";
-import LiveScorePanel from "@/components/LiveScorePanel";
+import GameHostPanel from "@/components/GameHostPanel";
 
 const Index = () => {
-  const gameUrl = `${window.location.origin}/game`;
-
   return (
     <main className="min-h-screen">
       <Navbar />
-      <QRCodePanel gameUrl={gameUrl} />
-      <LiveScorePanel />
       <div id="hero">
         <HeroSection />
       </div>
@@ -28,6 +23,7 @@ const Index = () => {
         <WhyItMattersSection />
       </div>
       <CTASection />
+      <GameHostPanel />
     </main>
   );
 };
