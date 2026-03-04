@@ -10,7 +10,7 @@ const HeroSection = () => {
   const startVideo = () => {
     if (!videoRef.current || hasStarted) return;
     videoRef.current.currentTime = 0;
-    videoRef.current.play();
+    void videoRef.current.play();
     setHasStarted(true);
   };
 
@@ -94,14 +94,17 @@ const HeroSection = () => {
             <video
               ref={videoRef}
               src="/campaign-video.mp4"
-              className="w-full h-full object-contain bg-black relative z-10"
+              className="w-full h-full object-contain bg-black"
               playsInline
-              controls={hasStarted}
+              controls
               controlsList="nodownload"
               preload="metadata"
+              onPlay={() => setHasStarted(true)}
               onLoadedMetadata={(e) => {
                 const video = e.currentTarget;
-                video.currentTime = video.duration;
+                if (Number.isFinite(video.duration) && video.duration > 0) {
+                  video.currentTime = Math.max(video.duration - 0.05, 0);
+                }
               }}
             />
 
