@@ -1,21 +1,17 @@
-import { Play, ChevronDown, Pause } from "lucide-react";
+import { Play, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
 import heroBg from "@/assets/hero-bg.png";
 
 const HeroSection = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const toggleVideo = () => {
-    if (!videoRef.current) return;
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
+  const startVideo = () => {
+    if (!videoRef.current || hasStarted) return;
+    videoRef.current.currentTime = 0;
+    videoRef.current.play();
+    setHasStarted(true);
   };
 
   return (
@@ -40,7 +36,7 @@ const HeroSection = () => {
       />
 
       <div className="relative z-10 container mx-auto px-6 py-20 text-center">
-        {/* Candidate Info - now ABOVE the video */}
+        {/* Candidate Info */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -94,57 +90,48 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <div
-            className="relative aspect-video rounded-2xl overflow-hidden border border-primary-foreground/20 shadow-2xl shadow-black/30 cursor-pointer group"
-            onClick={toggleVideo}
-          >
+          <div className="relative aspect-video rounded-2xl overflow-hidden border border-primary-foreground/20 shadow-2xl shadow-black/30">
             <video
               ref={videoRef}
               src="/campaign-video.mp4"
               className="w-full h-full object-contain bg-black"
               playsInline
-              controls={isPlaying}
+              controls={hasStarted}
+              controlsList="nodownload"
               preload="metadata"
-              onEnded={() => setIsPlaying(false)}
-              onPause={() => setIsPlaying(false)}
-              onPlay={() => setIsPlaying(true)}
+              onEnded={() => setHasStarted(false)}
               onLoadedMetadata={(e) => {
                 const video = e.currentTarget;
                 video.currentTime = video.duration;
               }}
             />
 
-            {/* Play/Pause overlay */}
-            <motion.div
-              className="absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity duration-300"
-              animate={{ opacity: isPlaying ? 0 : 1 }}
-              whileHover={{ opacity: 1 }}
-            >
-              <motion.div
-                className="w-20 h-20 rounded-full bg-primary-foreground/20 backdrop-blur-md flex items-center justify-center"
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.95 }}
-                animate={!isPlaying ? {
-                  boxShadow: [
-                    "0 0 0 0 rgba(255,255,255,0.3)",
-                    "0 0 0 20px rgba(255,255,255,0)",
-                    "0 0 0 0 rgba(255,255,255,0.3)",
-                  ],
-                } : {}}
-                transition={{ duration: 2.5, repeat: Infinity }}
+            {/* Initial play overlay - only shown before first play */}
+            {!hasStarted && (
+              <div
+                className="absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer"
+                onClick={startVideo}
               >
-                {isPlaying ? (
-                  <Pause className="w-8 h-8 text-primary-foreground" />
-                ) : (
+                <motion.div
+                  className="w-20 h-20 rounded-full bg-primary-foreground/20 backdrop-blur-md flex items-center justify-center"
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.95 }}
+                  animate={{
+                    boxShadow: [
+                      "0 0 0 0 rgba(255,255,255,0.3)",
+                      "0 0 0 20px rgba(255,255,255,0)",
+                      "0 0 0 0 rgba(255,255,255,0.3)",
+                    ],
+                  }}
+                  transition={{ duration: 2.5, repeat: Infinity }}
+                >
                   <Play className="w-8 h-8 text-primary-foreground ml-1" />
-                )}
-              </motion.div>
-              {!isPlaying && (
+                </motion.div>
                 <span className="absolute bottom-4 text-primary-foreground/70 text-sm font-medium">
                   Watch the Campaign Video
                 </span>
-              )}
-            </motion.div>
+              </div>
+            )}
           </div>
         </motion.div>
 
