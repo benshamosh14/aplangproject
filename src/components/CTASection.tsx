@@ -72,7 +72,7 @@ const CTASection = () => {
           >
             Choose Merit & Mindset.
           </motion.p>
-          <p className="text-primary-foreground/60 text-lg mt-4">
+          <p className="text-primary-foreground/60 text-lg">
             The future of Northern Highlands starts with us — calm, balanced, and human.
           </p>
         </motion.div>
