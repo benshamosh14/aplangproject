@@ -103,8 +103,11 @@ const HeroSection = () => {
               src="/campaign-video.mp4"
               className="w-full h-full object-contain bg-black"
               playsInline
+              controls={isPlaying}
               preload="metadata"
               onEnded={() => setIsPlaying(false)}
+              onPause={() => setIsPlaying(false)}
+              onPlay={() => setIsPlaying(true)}
               onLoadedMetadata={(e) => {
                 const video = e.currentTarget;
                 video.currentTime = video.duration;
